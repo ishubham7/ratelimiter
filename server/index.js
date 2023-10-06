@@ -2,7 +2,20 @@ const express = require('express');
 const redisClient = require('./redisClient').client;
 const ratelimitter = require('./ratelimitMiddleware').ratelimitter
 const app = express();
+const cors = require('cors')
 const PORT = process.env.PORT || 8080
+
+app.use(cors({
+    origin: '*',
+  
+    methods: [
+      'GET'
+    ],
+  
+    allowedHeaders: [
+      'Content-Type',
+    ],
+  }))
 
 app.get('/',(req,res)=>{
     res.json({
