@@ -11,6 +11,7 @@ exports.ratelimitter = ratelimitter;
 async function ratelimitter(req,res,next){
     const userId = req.headers['user-id'];
     const currentTime = moment().unix(); 
+    let timeDiff
 
     const response = await redisClient.hGetAll(userId)
 
@@ -23,7 +24,7 @@ async function ratelimitter(req,res,next){
     }
 
     if(response){
-        let timeDiff = (currentTime - response['createdAt'])
+        timeDiff = (currentTime - response['createdAt'])
 
         if(timeDiff > RATE_LIMIT_TIME){
             await redisClient.hSet(userId,{
@@ -33,17 +34,20 @@ async function ratelimitter(req,res,next){
             return next()
         }
     }
-    console.log("-->")
+
     if(response['count'] >= REQUEST_LIMIT){
+        await redisClient.hIncrBy(userId,"count",1)
+
+        const count = await redisClient.hGet(userId,"count")
+       
         res.status(429).json({
-            "errorMessage": "Request limit exceeded"
+            "errorMessage": "Request limit exceeded",
+            count,
+            timeDiff
         })
+        
     }else{
-        const a = await redisClient.hIncrBy(userId,"count",1)
+        await redisClient.hIncrBy(userId,"count",1)
         return next()
     }
-
-    
-
-    // console.log(response)
 }
