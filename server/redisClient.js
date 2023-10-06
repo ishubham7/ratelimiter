@@ -1,12 +1,11 @@
 const { createClient } = require ('redis');
-
-
+require('dotenv').config()
 
 const client =  createClient({
-    password: "",
+    password: process.env.REDIS_PASSWORD,
     socket: {
-        host: "",
-        port: 12018
+        host: process.env.REDIS_HOST,
+        port: process.env.REDIS_PORT
     }
 });
 client.on('connect', () => console.log('DB connected'));   
