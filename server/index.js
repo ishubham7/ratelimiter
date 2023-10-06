@@ -2,7 +2,7 @@ const express = require('express');
 const redisClient = require('./redisClient').client;
 const ratelimitter = require('./ratelimitMiddleware').ratelimitter
 const app = express();
-
+const PORT = process.env.PORT || 8080
 
 
 app.get('/hitme', ratelimitter ,async (req, res) => {
@@ -17,6 +17,6 @@ app.get('/hitme', ratelimitter ,async (req, res) => {
 });
 
 
-app.listen(8080, () => {
+app.listen(PORT, () => {
     console.log('Listening on port 8080');
 });
