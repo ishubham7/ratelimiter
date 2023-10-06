@@ -4,6 +4,12 @@ const ratelimitter = require('./ratelimitMiddleware').ratelimitter
 const app = express();
 const PORT = process.env.PORT || 8080
 
+app.get('/',(req,res)=>{
+    res.json({
+        "message": "working"
+    })
+})
+
 
 app.get('/hitme', ratelimitter ,async (req, res) => {
     const userId = req.headers['user-id'];
