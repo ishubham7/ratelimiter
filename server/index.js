@@ -5,17 +5,7 @@ const app = express();
 const cors = require('cors')
 const PORT = process.env.PORT || 8080
 
-app.use(cors({
-    origin: '*',
-  
-    methods: [
-      'GET'
-    ],
-  
-    allowedHeaders: [
-      'Content-Type',
-    ],
-  }))
+app.use(cors())
 
 app.get('/',(req,res)=>{
     res.json({
