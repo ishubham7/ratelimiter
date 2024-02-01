@@ -26,14 +26,11 @@ function App() {
       setErrorMessage(res)
     }
 
-    // if()
   }
   return (
     <div className="App">
       <h1> API Rate Limiter </h1>
-        {/* <form> */}
           <button onClick={sendRequest}> Hit Me </button>
-        {/* </form> */}
         {showMessage.message && <p className='access'> {showMessage.message} and API hit count is <strong>{showMessage.count}</strong>  </p>}
         {showErrorMessage.errorMessage && <p className='error'>{showErrorMessage.errorMessage},Your API hit count is <strong>{showErrorMessage.count}</strong> wait for 60 sec to reset. Current time {showErrorMessage.timeDiff} sec </p>}
         
